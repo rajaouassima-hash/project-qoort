@@ -1,0 +1,29 @@
+export default function handler(req, res) {
+  try {
+    const body = req.body;
+
+    console.log("📦 Sendit event:", body);
+
+    const status = body?.status;
+
+    if (status === "delivered") {
+      return res.status(200).json({
+        ok: true,
+        message: "DELIVERED event detected 🎯",
+        action: "ready_for_meta_capi"
+      });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      message: "Event received but ignored",
+      status: status || "unknown"
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      error: error.message
+    });
+  }
+}
